@@ -15,8 +15,6 @@ import (
 	"golang.org/x/oauth2"
 )
 
-var repo *string
-var owner *string
 var tags = []string{"chore", "docs", "feat", "fix", "refactor", "style", "test"}
 
 // labelCmd represents the label command
@@ -50,10 +48,6 @@ func init() {
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	owner = labelCmd.Flags().String("owner", "", "Owner of repo to label")
-	labelCmd.MarkFlagRequired("owner")
-	repo = labelCmd.Flags().String("repo", "", "Repo to label")
-	labelCmd.MarkFlagRequired("repo")
 }
 
 func initGithubClient(ctx context.Context) *github.Client {
