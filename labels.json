@@ -1,0 +1,37 @@
+[
+	{
+		"name": "chore",
+		"color": "e91e63",
+		"description": "updating build tasks etc; no production code change"
+	},
+	{
+		"name": "docs",
+		"color": "414141",
+		"description": "changes to the documentation"
+	},
+	{
+		"name": "feature",
+		"color": "9c27b0",
+		"description": "new feature for the user, not a new feature for build script"
+	},
+	{
+		"name": "fix",
+		"color": "3f51b5",
+		"description": "bug fix for the user, not a fix to a build script"
+	},
+	{
+		"name": "refactor",
+		"color": "03a9f4",
+		"description": "refactoring production code, eg. renaming a variable"
+	},
+	{
+		"name": "style",
+		"color": "00bcd4",
+		"description": "visual updates to the ui, css; not core logic"
+	},
+	{
+		"name": "test",
+		"color": "00e676",
+		"description": "adding missing tests, refactoring tests; no production code change"
+	}
+]
