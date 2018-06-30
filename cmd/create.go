@@ -12,8 +12,8 @@ import (
 
 const mediaTypeSymmetraPreview = "application/vnd.github.symmetra-preview+json"
 
-var labelsFile *string
-var deleteExisting *bool
+var deleteExisting bool
+var labelsFile string
 
 // createCmd represents the create command
 var createCmd = &cobra.Command{
@@ -31,7 +31,7 @@ The JSON file expects a format including name, color, and description.`,
 			gitLabelMap: nil,
 			tags:        tags,
 		}
-		labeller.CreateLabels(*owner, *repo)
+		labeller.CreateLabels(owner, repo)
 	},
 }
 
@@ -46,11 +46,12 @@ func init() {
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	deleteExisting = createCmd.Flags().Bool("delete", true, "Delete all existing labels")
-	labelsFile = createCmd.Flags().String("labels", "labels.json", "JSON of labels to create")
+
+	createCmd.Flags().BoolVarP(&deleteExisting, "delete", "d", true, "Delete all existing labels")
+	createCmd.Flags().StringVarP(&labelsFile, "labels", "l", "labels.json", "JSON of labels to create")
 }
 
-// GitLabel holds labels
+// GitLabel represents the JSON structure of the labels defined in the labels file
 type GitLabel struct {
 	Name        string `json:"name,omitempty"`
 	Color       string `json:"color,omitempty"`
@@ -59,7 +60,7 @@ type GitLabel struct {
 
 // CreateLabels creates Github Labels based on the provided JSON.
 func (l Labeller) CreateLabels(owner string, repo string) {
-	if *deleteExisting {
+	if deleteExisting {
 		labels, _, _ := l.client.Issues.ListLabels(l.ctx, owner, repo, &github.ListOptions{})
 		for _, label := range labels {
 			l.client.Issues.DeleteLabel(l.ctx, owner, repo, *label.Name)
@@ -67,9 +68,9 @@ func (l Labeller) CreateLabels(owner string, repo string) {
 	}
 
 	var labels []GitLabel
-	ld, err := ioutil.ReadFile(*labelsFile)
+	ld, err := ioutil.ReadFile(labelsFile)
 	if err != nil {
-		panic(fmt.Errorf("Error occurred while reading from %v", *labelsFile))
+		panic(fmt.Errorf("Error occurred while reading from %v", labelsFile))
 	}
 
 	err = json.Unmarshal(ld, &labels)
@@ -84,5 +85,5 @@ func (l Labeller) CreateLabels(owner string, repo string) {
 		l.client.Do(l.ctx, req, &gitLabel)
 	}
 
-	fmt.Printf("Added all labels from %s\n", *labelsFile)
+	fmt.Printf("Added all labels from %s to %s \n", labelsFile, repo)
 }

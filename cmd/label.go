@@ -33,7 +33,7 @@ The tag is associated with a PR label, which is then applied to the PR.`,
 			gitLabelMap: nil,
 			tags:        tags,
 		}
-		labeller.Label(*owner, *repo)
+		labeller.Label(owner, repo)
 	},
 }
 

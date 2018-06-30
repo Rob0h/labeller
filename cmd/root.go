@@ -10,8 +10,8 @@ import (
 )
 
 var cfgFile string
-var repo *string
-var owner *string
+var repo string
+var owner string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -44,10 +44,10 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	owner = rootCmd.PersistentFlags().String("owner", "", "Owner of repo to label")
-	rootCmd.MarkFlagRequired("owner")
-	repo = rootCmd.PersistentFlags().String("repo", "", "Repo to label")
-	rootCmd.MarkFlagRequired("repo")
+	rootCmd.PersistentFlags().StringVarP(&owner, "owner", "o", "", "Owner of repo to label")
+	rootCmd.MarkPersistentFlagRequired("owner")
+	rootCmd.PersistentFlags().StringVarP(&repo, "repo", "r", "", "Repo to label")
+	rootCmd.MarkPersistentFlagRequired("repo")
 }
 
 // initConfig reads in config file and ENV variables if set.
